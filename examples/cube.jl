@@ -36,7 +36,12 @@ end
 
 main = () -> begin
 	try
+		count = 0
 		while !WindowShouldClose(canvas.windowRef[])
+			count += 1
+			if count % 20 == 0
+				wo.rType = RenderType(wo.rType ⊻ VISIBLE)
+			end
 			runApp(renderer)
 			PollEvents()
 		end

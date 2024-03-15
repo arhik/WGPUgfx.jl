@@ -14,8 +14,8 @@ WGPUCore.SetLogLevel(WGPUCore.WGPULogLevel_Off)
 scene = Scene();
 renderer = getRenderer(scene);
 
-circle = defaultUICircle(;nSectors=20, radius=0.2, color = [0.4, 0.3, 0.5, 0.6]);
-circle2 = defaultUICircle(;nSectors=100, radius=rand(0.1:0.01:0.8), color = rand(4));
+circle = defaultUICircle(;nSectors=20, radius=0.2, color = [0.4, 0.3, 0.5, 0.2]);
+circle2 = defaultUICircle(;nSectors=100, radius=0.25, color = [0.4, 0.3, 0.5, 0.6]);
 
 addObject!(renderer, circle, scene.camera);
 addObject!(renderer, circle2, scene.camera);
@@ -29,8 +29,9 @@ attachEventSystem(renderer, mouseState, keyboardState)
 
 function runApp(renderer)
 	init(renderer)
-    #render(renderer)
+    (y, x) = 2.0.*(mouseState.prevPosition./500.0 .- 0.5)
 	object = mouseState.leftClick ? renderer.scene.objects[2] : renderer.scene.objects[1]
+    object.uniformData = translate([x, -y, 0.0]).linear
 	WGPUgfx.render(renderer.renderPass, renderer.renderPassOptions, object, renderer.scene.cameraId)
 	deinit(renderer)
 end
@@ -40,7 +41,7 @@ main = () -> begin
 		flag = false
 		while !WindowShouldClose(scene.canvas.windowRef[])
 			runApp(renderer)
-			WaitEvents()		
+			PollEvents()		
 		end
 	finally
 		WGPUCore.destroyWindow(scene.canvas)

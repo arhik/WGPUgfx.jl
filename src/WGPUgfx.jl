@@ -16,6 +16,7 @@ include("system.jl")
 include("scene.jl")
 
 include("worldObject.jl")
+include("uiObject.jl")
 include("textObject.jl")
 include("text.jl")
 include("tree.jl")

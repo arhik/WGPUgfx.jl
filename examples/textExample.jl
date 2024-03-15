@@ -9,6 +9,7 @@ using Rotations
 using StaticArrays
 using WGPUNative
 using Debugger
+using FreeTypeAbstraction
 
 WGPUCore.SetLogLevel(WGPUCore.WGPULogLevel_Off)
 

@@ -1,7 +1,6 @@
-export isNormalDefined, isTextureDefined
+export RenderableUI, isNormalDefined, isTextureDefined
 
 abstract type RenderableUI end
-
 
 isNormalDefined(renderObj::RenderableUI) = isdefined(renderObj, :normalData)
 isNormalDefined(T::Type{<:RenderableUI}) = :normalData in fieldnames(T)
