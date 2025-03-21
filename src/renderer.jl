@@ -140,8 +140,12 @@ function compileShaders!(gpuDevice, scene::Scene, object::Renderable; binding=MA
 
 	src = getDefaultSrc(scene, isLight, isTexture)
 	push!(src.args, getShaderCode(object, scene.cameraId; binding = binding))
+
+	srcBuffer = IOBuffer()
+	write(srcBuffer, src |> wgslCode)
+		
 	try
-		cshader = createShaderObj(gpuDevice, src; savefile=false)
+		cshader = createShaderObj(gpuDevice, src |> wgslCode, srcBuffer ; savefile=false)
 		cshaders =  getfield(object, :cshaders)
 		cshaders[scene.cameraId] = cshader
 		# setfield!(object, :cshader, cshader)
@@ -162,8 +166,12 @@ function compileShaders!(gpuDevice, scene::Scene, quad::RenderableUI; binding=MA
 
 	src = quote end
 	push!(src.args, getShaderCode(quad, scene.cameraId; binding = binding))
+
+	srcBuffer = IOBuffer()
+	write(srcBuffer, src |> wgslCode)
+
 	try
-		cshader = createShaderObj(gpuDevice, src; savefile=false)
+		cshader = createShaderObj(gpuDevice, src, srcBuffer; savefile=false)
 		cshaders =  getfield(quad, :cshaders)
 		cshaders[scene.cameraId] = cshader
 		# setfield!(object, :cshader, cshader)
@@ -205,8 +213,10 @@ function compileShaders!(gpuDevice, scene::Scene, object::WorldObject; binding=M
 			isTexture = isTextureDefined(obj) && obj.textureData != nothing
 			src = getDefaultSrc(scene, isLight, isTexture)
 			push!(src.args, getShaderCode(obj, scene.cameraId; binding = binding))
+			srcBuffer = IOBuffer()
+			write(srcBuffer, src |> wgslCode)
 			try
-				cshader = createShaderObj(gpuDevice, src; savefile=false)
+				cshader = createShaderObj(gpuDevice, src, srcBuffer; savefile=false)
 				cshaders = getfield(obj, :cshaders)
 				cshaders[scene.cameraId] = cshader
 				# setfield!(obj, :cshader, cshader)

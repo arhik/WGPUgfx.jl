@@ -1,5 +1,6 @@
 using WGPUCore
 using Reexport
+using Infiltrator 
 
 export createShaderObj
 
@@ -10,12 +11,10 @@ struct ShaderObj
 end
 
 
-function createShaderObj(gpuDevice, shaderSource; savefile=false, debug = false)
-	@info "IR CODE" shaderSource
-	shaderSource = (shaderSource |> wgslCode)
+function createShaderObj(gpuDevice, shaderSource, shaderBuffer; savefile=false, debug = false)
 	@info shaderSource
-	shaderBytes  = shaderSource |> Vector{UInt8}
-
+	seek(shaderBuffer, 0)
+	shaderBytes = read(shaderBuffer)
 	shaderInfo = WGPUCore.loadWGSL(shaderBytes)
 
 	shaderObj = ShaderObj(

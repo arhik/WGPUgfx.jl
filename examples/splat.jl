@@ -24,8 +24,8 @@ getHomePath() = begin
 	end
 end
 
-# pc = defaultGSplat(joinpath(getHomePath(), "Downloads", "bonsai", "bonsai_30000.ply"))
-pc = defaultGSplat(joinpath(getHomePath(), "Downloads", "train", "train_30000.ply"))
+pc = defaultGSplat(joinpath(getHomePath(), "Downloads", "bonsai", "bonsai_30000.ply"))
+# pc = defaultGSplat(joinpath(getHomePath(), "Downloads", "train", "train_30000.ply"))
 # pc = defaultGSplat(joinpath(getHomePath(), "Downloads", "bicycle", "bicycle_30000.ply"))
 
 axis = defaultAxis()
